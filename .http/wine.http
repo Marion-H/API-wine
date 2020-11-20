@@ -1,0 +1,19 @@
+GET http://localhost:8080/wines HTTP/1.1
+
+###
+
+POST http://localhost:8080/wines
+Content-Type: application/json
+
+{
+    "title": "test",
+    "type": "rouge",
+    "image": "https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg",
+    "temperature": "15.2",
+    "region":"nouvelle-aquitaine",
+    "description": "lorem ipsum",
+    "ref_store":["Juillan","Tarbes","Brauhauban"],
+    "list_dishes": ["viande rouge", "poulet"],
+    "logo": ["https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg","https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg"],
+    "price_indicator": "€-€€"
+}
