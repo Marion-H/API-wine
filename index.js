@@ -1,6 +1,7 @@
 require("dotenv").config()
 const express = require("express")
 const cors = require("cors")
+const helmet = require("helmet")
 
 const sequelize = require("./sequelize")
 
@@ -11,6 +12,8 @@ const app = express()
 const PORT = process.env.PORT || 8000
 
 app.use(cors())
+
+app.use(helmet())
 
 app.use(express.json())
 
@@ -34,6 +37,8 @@ async function main() {
     }
 }
 
-main()
+if (process.env.NODE_ENV !== "test") {
+    main();
+}
 
 module.exports = app
