@@ -1,4 +1,5 @@
 const express = require("express")
+const { createPool } = require("mysql2/promise")
 
 const wine = express.Router()
 
@@ -49,6 +50,19 @@ wine.put("/:uuid", async (req, res) => {
     const { title, type, image, temperature, region, description, list_dishes, logo, price_indicator } = req.body
     try {
         const wine = await Wine.update({ title, type, image, temperature, region, description, list_dishes, logo, price_indicator }, { where: { uuid } })
+        res.status(204).end()
+    } catch (err) {
+        res.status(400).json({
+            status: "error",
+            message: err.message
+        })
+    }
+})
+
+wine.delete("/:uuid", async (req, res) => {
+    const uuid = req.params.uuid
+    try {
+        await Wine.destroy({where: {uuid}})
         res.status(204).end()
     } catch (err) {
         res.status(400).json({

@@ -79,4 +79,15 @@ describe("WINE", () => {
             }
         })
     })
+
+    describe("delete a wine with uuid", () => {
+        it("should delete a single wine with a uuid", async () => {
+            try {
+                const res = await chai.request(server).delete(`/wines/${wine.uuid}`)
+                expect(res).have.status(204)
+            } catch (err) {
+                throw err
+            }
+        })
+    })
 })
