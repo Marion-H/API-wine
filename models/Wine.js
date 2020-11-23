@@ -34,16 +34,16 @@ const Wine = sequelizeInstance.define(
             type: Sequelize.STRING(1000),
             allowNull: true
         },
-        ref_store: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            get() {
-                return this.getDataValue("ref_store").split(';')
-            },
-            set(val) {
-                this.setDataValue("ref_store", val.join(";"))
-            }
-        }, 
+        // ref_store: {
+        //     type: Sequelize.STRING,
+        //     allowNull: false,
+        //     get() {
+        //         return this.getDataValue("ref_store").split(';')
+        //     },
+        //     set(val) {
+        //         this.setDataValue("ref_store", val.join(";"))
+        //     }
+        // }, 
         list_dishes: {
             type: Sequelize.STRING,
             allowNull: false,
