@@ -9,8 +9,23 @@ wine.get("/", async (req, res) => {
     try {
         res.status(200).json(wines)
     } catch (err) {
-        res.statut(400).json(err)
+        res.statut(400).json({
+            status: "error", 
+            message: err.message
+        })
     }
+})
+
+wine.get("/:uuid", async (req, res) => {
+    const uuid = req.params.uuid
+    try {
+        const wine = await Wine.findByPk(uuid)
+        res.status(200).json(wine)
+    } catch (err) {
+        res.status(422).json({
+            status : "error", 
+            message : err.message
+    })}
 })
 
 wine.post("/", async (req, res) => {

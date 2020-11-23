@@ -16,3 +16,10 @@ Content-Type: application/json
     "logo": ["https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg","https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg"],
     "price_indicator": "€-€€"
 }
+
+
+###
+
+GET http://localhost:8080/wines/7ad4427b-ff04-4718-88d9-70af6add400a
+
+
