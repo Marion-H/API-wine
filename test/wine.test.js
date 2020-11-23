@@ -42,6 +42,7 @@ describe("WINE", () => {
             price_indicator: "€-€€"
         })
     })
+
     describe("get all wines", () => {
         it("should return an array of wines", async () => {
             try {
@@ -69,10 +70,43 @@ describe("WINE", () => {
         })
     })
 
+    describe("post a new wine", () => {
+        it("should return a new object wine", async () => {
+            try {
+                const res = await chai.request(server).post("/wines").send({
+                    title: "vin bordeaux",
+                    type: "rouge",
+                    image: "test.png",
+                    temperature: "12.3",
+                    region: "nouvelle-aquitaine",
+                    description: "lorem ipsum",
+                    list_dishes: ["poulet", "poisson"],
+                    logo: ["test.png", "test.png", "test.png"],
+                    price_indicator: "€-€€"
+                })
+                expect(res).have.status(201)
+            } catch (err) {
+                throw err
+            }
+        })
+        it("failed to create a new wine", async () => {
+            try {
+                const res = await chai.request(server).post("/wines").send({
+                    title: "vin bordeaux"
+                })
+                expect(res).have.status(422)
+                expect(res.body).to.be.a("object")
+                expect(res.body).have.keys(["status","message"])
+            } catch (err) {
+                throw err
+            }
+        })
+    })
+
     describe("put a wine with uuid", () => {
         it("should put a wine with uuid", async () => {
             try {
-                const res = await chai.request(server).put(`/wines/${wine.uuid}`).send({ title: "test"})
+                const res = await chai.request(server).put(`/wines/${wine.uuid}`).send({ title: "test" })
                 expect(res).have.status(204)
             } catch (err) {
                 throw err
