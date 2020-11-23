@@ -96,7 +96,7 @@ describe("WINE", () => {
                 })
                 expect(res).have.status(422)
                 expect(res.body).to.be.a("object")
-                expect(res.body).have.keys(["status","message"])
+                expect(res.body).have.keys(["status", "message"])
             } catch (err) {
                 throw err
             }
@@ -115,12 +115,12 @@ describe("WINE", () => {
 
         it("failed to put wine", async () => {
             try {
-                const res = await chai.request(server).put(`/wines/${wine.uuid}`).send({ tit: "test"})
+                const res = await chai.request(server).put(`/wines/${wine.uuid}`).send({ tit: "test" })
                 expect(res).have.status(400)
                 expect(res.body).to.be.a("object")
-                expect(res.body).have.keys(["status","message"])
+                expect(res.body).have.keys(["status", "message"])
             } catch (err) {
-                
+
             }
         })
     })
@@ -130,6 +130,17 @@ describe("WINE", () => {
             try {
                 const res = await chai.request(server).delete(`/wines/${wine.uuid}`)
                 expect(res).have.status(204)
+            } catch (err) {
+                throw err
+            }
+        })
+
+        it("failed to delete wine", async () => {
+            try {
+                const res = await chai.request(server).delete('/wines/1')
+                expect(res).have.status(400)
+                expect(res.body).to.be.a("object")
+                expect(res.body).have.keys(["status", "message"])
             } catch (err) {
                 throw err
             }
