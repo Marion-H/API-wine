@@ -56,14 +56,25 @@ describe("WINE", () => {
         })
     })
 
-    describe("get one wine", () => {
-        it ("should return an object of wine with uuid", async () => {
+    describe("get a wine with uuid", () => {
+        it("should return an object of wine with uuid", async () => {
             try {
                 const res = await chai.request(server).get(`/wines/${wine.uuid}`)
                 expect(res).have.status(200)
                 expect(res.body).to.be.a("object")
                 expect(res.body).have.keys(wineKey)
-            } catch(err) {
+            } catch (err) {
+                throw err
+            }
+        })
+    })
+
+    describe("put a wine with uuid", () => {
+        it("should put a wine with uuid", async () => {
+            try {
+                const res = await chai.request(server).put(`/wines/${wine.uuid}`).send({ title: "test"})
+                expect(res).have.status(204)
+            } catch (err) {
                 throw err
             }
         })

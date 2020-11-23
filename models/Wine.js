@@ -48,7 +48,8 @@ const Wine = sequelizeInstance.define(
             type: Sequelize.STRING,
             allowNull: false,
             get() {
-                return this.getDataValue("list_dishes").split(';')
+                const rawValue = this.getDataValue("list_dishes")
+                return rawValue? rawValue.split(';') : null
             },
             set(val) {
                 this.setDataValue("list_dishes", val.join(";"))
@@ -58,7 +59,8 @@ const Wine = sequelizeInstance.define(
             type: Sequelize.STRING,
             allowNull: false,
             get() {
-                return this.getDataValue("logo").split(';')
+                const rawValue = this.getDataValue("logo")
+                return rawValue ? rawValue.split(';') : null
             },
             set(val) {
                 this.setDataValue("logo", val.join(";"))

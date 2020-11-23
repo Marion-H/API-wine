@@ -20,6 +20,21 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/wines/7ad4427b-ff04-4718-88d9-70af6add400a
+GET http://localhost:8080/wines/b26b9278-f7c1-4bb0-b516-6d1ff99dfc41
 
+####
 
+PUT http://localhost:8080/wines/b26b9278-f7c1-4bb0-b516-6d1ff99dfc41
+Content-Type: application/json
+
+{
+    "title": "Bordeaux",
+    "type": "rouge",
+    "image": "https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg",
+    "temperature": "15.2",
+    "region":"nouvelle-aquitaine",
+    "description": "lorem ipsum",
+    "list_dishes": ["viande rouge", "poulet"],
+    "logo": ["https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg","https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg"],
+    "price_indicator": "€-€€"
+}
