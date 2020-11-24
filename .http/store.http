@@ -1,1 +1,17 @@
 GET http://localhost:8080/stores
+
+###
+POST http://localhost:8080/stores
+Content-Type: application/json
+
+{
+    "name": "Tarbes"
+}
+
+###
+PUT http://localhost:8080/stores/6d3316ff-113f-432b-af9b-c2f00ad9ad6b
+Content-Type: application/json
+
+{
+    "name": "Juillan"
+}

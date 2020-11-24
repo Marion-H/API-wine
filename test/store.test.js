@@ -17,11 +17,11 @@ const storeKey = [
     "updatedAt"
 ]
 
-let store 
+let store
 
 describe("STORE", () => {
     before(async () => {
-        await sequelize.sync({ force: true})
+        await sequelize.sync({ force: true })
         store = await Store.create({
             name: "Tarbes"
         })
@@ -75,7 +75,33 @@ describe("STORE", () => {
                 expect(res.body).to.be.a("object")
                 expect(res.body).have.keys(["status", "message"])
             } catch (err) {
-                
+                throw err
+            }
+        })
+    })
+
+    describe("put a store", () => {
+        it("should update a store", async () => {
+            try {
+                const res = await chai.request(server).put(`/stores/${store.uuid}`).send({
+                    name: "Juillan"
+                })
+                expect(res).have.status(204)
+            } catch (err) {
+                throw err
+            }
+        })
+
+        it("failed to update a store", async () => {
+            try {
+                const res = await chai.request(server).put("/stores/1").send({
+                    name: "Juillan"
+                })
+                expect(res).have.status(400)
+                expect(res.body).to.be.a("object")
+                expect(res.body).have.keys(["status", "message"])
+            } catch (err) {
+                throw err
             }
         })
     })

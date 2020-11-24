@@ -32,10 +32,24 @@ store.get("/:uuid", async (req,res) => {
 store.post("/", async (req,res) => {
     const { name } = req.body
     try {
-        await Store.create({name})
-        res.status(201).end()
+        const store = await Store.create({name})
+        res.status(201).json(store)
     } catch (err) {
         res.status(422).json({
+            status: "error",
+            message: err.message
+        })
+    }
+})
+
+store.put("/:uuid", async (req,res) => {
+    const uuid = req.params.uuid
+    const { name } = req.body
+    try {
+        const store = await Store.update({ name }, {where: { uuid }})
+        res.status(204).end()
+    } catch (err) {
+        res.status(400).json({
             status: "error",
             message: err.message
         })

@@ -116,7 +116,7 @@ describe("WINE", () => {
         it("failed to put wine", async () => {
             try {
                 const res = await chai.request(server).put(`/wines/${wine.uuid}`).send({ tit: "test" })
-                expect(res).have.status(400)
+                expect(res).have.status(422)
                 expect(res.body).to.be.a("object")
                 expect(res.body).have.keys(["status", "message"])
             } catch (err) {
