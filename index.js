@@ -6,6 +6,7 @@ const helmet = require("helmet")
 const sequelize = require("./sequelize")
 
 const wine = require("./routes/wine.route")
+const store = require("./routes/store.route")
 
 const app = express()
 
@@ -18,6 +19,7 @@ app.use(helmet())
 app.use(express.json())
 
 app.use("/wines", wine)
+app.use("/stores", store)
 
 app.get("/", (req, res) => {
     res.status(200).send("Welcome in your API")

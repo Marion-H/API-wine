@@ -1,13 +1,12 @@
 const express = require("express")
-const { createPool } = require("mysql2/promise")
 
 const wine = express.Router()
 
 const Wine = require("../models/Wine")
 
 wine.get("/", async (req, res) => {
-    const wines = await Wine.findAll()
     try {
+        const wines = await Wine.findAll()
         res.status(200).json(wines)
     } catch (err) {
         res.statut(400).json({
