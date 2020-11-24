@@ -94,10 +94,10 @@ describe("STORE", () => {
 
         it("failed to update a store", async () => {
             try {
-                const res = await chai.request(server).put("/stores/1").send({
-                    name: "Juillan"
+                const res = await chai.request(server).put(`/stores/${store.uuid}`).send({
+                    nam: "Juillan"
                 })
-                expect(res).have.status(400)
+                expect(res).have.status(422)
                 expect(res.body).to.be.a("object")
                 expect(res.body).have.keys(["status", "message"])
             } catch (err) {

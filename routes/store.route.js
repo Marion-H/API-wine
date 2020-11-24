@@ -47,7 +47,14 @@ store.put("/:uuid", async (req,res) => {
     const { name } = req.body
     try {
         const store = await Store.update({ name }, {where: { uuid }})
-        res.status(204).end()
+        if (store[0] !== 0){
+            res.status(204).end()
+        } else {
+            res.status(422).json({
+                status: "error",
+                message: "Check if the key exists or if the key is well written"
+            }) 
+        }
     } catch (err) {
         res.status(400).json({
             status: "error",
