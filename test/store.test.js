@@ -53,4 +53,17 @@ describe("STORE", () => {
             }
         })
     })
+
+    describe("post a store", () => {
+        it("should post a new store", async () => {
+            try {
+                const res = await chai.request(server).post('/stores').send({
+                    name: "Juillan"
+                })
+                expect(res).have.status(201)
+            } catch (err) {
+                throw err
+            }
+        })
+    })
 })

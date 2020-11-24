@@ -29,4 +29,17 @@ store.get("/:uuid", async (req,res) => {
     }
 })
 
+store.post("/", async (req,res) => {
+    const { name } = req.body
+    try {
+        await Store.create({name})
+        res.status(201).end()
+    } catch (err) {
+        res.status(422).json({
+            status: "error",
+            message: err.message
+        })
+    }
+})
+
 module.exports = store
