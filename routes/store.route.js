@@ -63,4 +63,17 @@ store.put("/:uuid", async (req,res) => {
     }
 })
 
+store.delete("/:uuid", async (req, res) => {
+    const uuid = req.params.uuid
+    try {
+        await Store.destroy({where: {uuid} })
+        res.status(204).end()
+    } catch (err) {
+        res.status(400).json({
+            status: "error",
+            message: err.message
+        })
+    }
+})
+
 module.exports = store

@@ -105,4 +105,15 @@ describe("STORE", () => {
             }
         })
     })
+
+    describe("delete a store", () => {
+        it("should delete a single store with uuid", async () => {
+            try {
+                const res = await chai.request(server).delete(`/stores/${store.uuid}`)
+                expect(res).have.status(204)
+            } catch (err) {
+                throw err
+            }
+        })
+    })
 })
