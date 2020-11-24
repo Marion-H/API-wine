@@ -1,5 +1,4 @@
 const Sequelize = require("sequelize")
-const sequelize = require("../sequelize")
 const SequelizeInstance = require("../sequelize")
 
 const Store = SequelizeInstance.define(
