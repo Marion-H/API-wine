@@ -65,5 +65,18 @@ describe("STORE", () => {
                 throw err
             }
         })
+
+        it("failed to create a new store", async () => {
+            try {
+                const res = await chai.request(server).post('/stores').send({
+                    nam: "Juillan"
+                })
+                expect(res).have.status(422)
+                expect(res.body).to.be.a("object")
+                expect(res.body).have.keys(["status", "message"])
+            } catch (err) {
+                
+            }
+        })
     })
 })
