@@ -16,4 +16,17 @@ store.get("/", async (req,res) => {
     }
 })
 
+store.get("/:uuid", async (req,res) => {
+    const uuid = req.params.uuid
+    try {
+        const store = await Store.findByPk(uuid)
+        res.status(200).json(store)
+    } catch (err) {
+        res.status(422).json({
+            status: "error",
+            message: err.message
+        })
+    }
+})
+
 module.exports = store

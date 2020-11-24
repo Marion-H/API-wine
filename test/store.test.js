@@ -40,4 +40,17 @@ describe("STORE", () => {
             }
         })
     })
+
+    describe("get one store", () => {
+        it("should return an object store with uuid", async () => {
+            try {
+                const res = await chai.request(server).get(`/stores/${store.uuid}`)
+                expect(res).have.status(200)
+                expect(res.body).to.be.a("object")
+                expect(res.body).have.keys(storeKey)
+            } catch (err) {
+                throw err
+            }
+        })
+    })
 })
