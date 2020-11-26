@@ -34,7 +34,18 @@ wine.get("/:uuid", async (req, res) => {
     const uuid = req.params.uuid
     try {
         const wine = await Wine.findOne({
-            where: { uuid }
+            where: { uuid },
+            include: [{
+                model: Store,
+                as: "stores",
+                required: false,
+                attributes: ["uuid","name"],
+                through: {
+                    model: WineStore,
+                    as: "wineStores",
+                    attributes: []
+                }
+            }]
         })
         res.status(200).json(wine)
     } catch (err) {
@@ -43,7 +54,7 @@ wine.get("/:uuid", async (req, res) => {
             message: err.message
         })
     }
-})
+}) 
 
 wine.post("/", async (req, res) => {
     const { title, type, image, temperature, region, description, list_dishes, logo, price_indicator, StoreUuid } = req.body
@@ -51,24 +62,14 @@ wine.post("/", async (req, res) => {
         const saveWine = await Wine.create({
             title, type, image, temperature, region, description, list_dishes, logo, price_indicator
         })
-        // StoreUuid.forEach(uuid => {
-        //     const store = Store.findByPk(uuid)
-        //     console.log(store)
-        //     if (!store) {
-        //         res.status(422).json({
-        //             status: "error",
-        //             message: "Store Uuid doesn't exist"
-        //         })
-        //     }
-        // })
+        
         const store = await Store.findByPk(StoreUuid)
         console.log(store.dataValues)
-        const po = {
+        const infoWineStore = {
             WineUuid: saveWine.uuid,
             StoreUuid: store.uuid 
         }
-        console.log(po)
-        const saveWineStore = await WineStore.create(po)
+        const saveWineStore = await WineStore.create(infoWineStore)
         res.status(201).json(saveWine)
     
 } catch (err) {
