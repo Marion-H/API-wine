@@ -6,7 +6,7 @@ POST http://localhost:8080/wines
 Content-Type: application/json
 
 {
-    "title": "test",
+    "title": "Baba",
     "type": "rouge",
     "image": "https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg",
     "temperature": "15.2",
@@ -14,13 +14,14 @@ Content-Type: application/json
     "description": "lorem ipsum",
     "list_dishes": ["viande rouge", "poulet"],
     "logo": ["https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg","https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg"],
-    "price_indicator": "€-€€"
+    "price_indicator": "€-€€",
+    "StoreUuid": "0a8fab9e-944a-4792-93ff-05bae3c089df"
 }
 
 
 ###
 
-GET http://localhost:8080/wines/a4163e5a-f751-4f5d-877e-684e9bad8bc9
+GET http://localhost:8080/wines/5e0be493-e681-4776-bff7-29e18d790f11
 
 ####
 
@@ -30,3 +31,5 @@ Content-Type: application/json
 {
     "tit": "Bordeaux"
 }
+
+

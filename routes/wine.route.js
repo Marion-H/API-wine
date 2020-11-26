@@ -3,13 +3,27 @@ const express = require("express")
 const wine = express.Router()
 
 const Wine = require("../models/Wine")
+const Store = require("../models/Store")
+const WineStore = require("../models/WineStore")
 
 wine.get("/", async (req, res) => {
     try {
-        const wines = await Wine.findAll()
+        const wines = await Wine.findAll({ 
+            include: [{
+                model: Store,
+                as: "stores",
+                required: false,
+                attributes: ["uuid","name"],
+                through: {
+                    model: WineStore,
+                    as: "wineStores",
+                    attributes: []
+                }
+            }]
+        })
         res.status(200).json(wines)
     } catch (err) {
-        res.statut(400).json({
+        res.status(400).json({
             status: "error",
             message: err.message
         })
@@ -19,7 +33,9 @@ wine.get("/", async (req, res) => {
 wine.get("/:uuid", async (req, res) => {
     const uuid = req.params.uuid
     try {
-        const wine = await Wine.findByPk(uuid)
+        const wine = await Wine.findOne({
+            where: { uuid }
+        })
         res.status(200).json(wine)
     } catch (err) {
         res.status(422).json({
@@ -30,18 +46,37 @@ wine.get("/:uuid", async (req, res) => {
 })
 
 wine.post("/", async (req, res) => {
-    const { title, type, image, temperature, region, description, list_dishes, logo, price_indicator } = req.body
+    const { title, type, image, temperature, region, description, list_dishes, logo, price_indicator, StoreUuid } = req.body
     try {
-        const wine = await Wine.create({
+        const saveWine = await Wine.create({
             title, type, image, temperature, region, description, list_dishes, logo, price_indicator
         })
-        res.status(201).json(wine)
-    } catch (err) {
-        res.status(422).json({
-            status: "error",
-            message: err.message
-        })
-    }
+        // StoreUuid.forEach(uuid => {
+        //     const store = Store.findByPk(uuid)
+        //     console.log(store)
+        //     if (!store) {
+        //         res.status(422).json({
+        //             status: "error",
+        //             message: "Store Uuid doesn't exist"
+        //         })
+        //     }
+        // })
+        const store = await Store.findByPk(StoreUuid)
+        console.log(store.dataValues)
+        const po = {
+            WineUuid: saveWine.uuid,
+            StoreUuid: store.uuid 
+        }
+        console.log(po)
+        const saveWineStore = await WineStore.create(po)
+        res.status(201).json(saveWine)
+    
+} catch (err) {
+    res.status(422).json({
+        status: "error",
+        message: err
+    })
+}
 })
 
 wine.put("/:uuid", async (req, res) => {
@@ -49,7 +84,7 @@ wine.put("/:uuid", async (req, res) => {
     const { title, type, image, temperature, region, description, list_dishes, logo, price_indicator } = req.body
     try {
         const wine = await Wine.update({ title, type, image, temperature, region, description, list_dishes, logo, price_indicator }, { where: { uuid } })
-        if (wine[0] !== 0 ){
+        if (wine[0] !== 0) {
             res.status(204).end()
         } else {
             res.status(422).json({
@@ -68,7 +103,7 @@ wine.put("/:uuid", async (req, res) => {
 wine.delete("/:uuid", async (req, res) => {
     const uuid = req.params.uuid
     try {
-        await Wine.destroy({where: {uuid}})
+        await Wine.destroy({ where: { uuid } })
         res.status(204).end()
     } catch (err) {
         res.status(400).json({

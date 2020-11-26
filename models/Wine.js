@@ -73,4 +73,16 @@ const Wine = sequelizeInstance.define(
     }
 );
 
+// Wine.create({
+//     title: "Baba",
+//     type: "rouge",
+//     image: "https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg",
+//     temperature: "15.2",
+//     region:"nouvelle-aquitaine",
+//     description: "lorem ipsum",
+//     list_dishes: ["viande rouge", "poulet"],
+//     logo: ["https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg","https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg"],
+//     price_indicator: "€-€€"
+// })
+
 module.exports = Wine

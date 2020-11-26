@@ -4,9 +4,11 @@ const cors = require("cors")
 const helmet = require("helmet")
 
 const sequelize = require("./sequelize")
+require("./associations/associations")
 
 const wine = require("./routes/wine.route")
 const store = require("./routes/store.route")
+const wineStore = require("./routes/wineStore.route")
 
 const app = express()
 
@@ -20,6 +22,7 @@ app.use(express.json())
 
 app.use("/wines", wine)
 app.use("/stores", store)
+app.use("/wineStores", wineStore)
 
 app.get("/", (req, res) => {
     res.status(200).send("Welcome in your API")
