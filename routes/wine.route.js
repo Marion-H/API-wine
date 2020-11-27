@@ -2,6 +2,9 @@ const express = require("express")
 
 const wine = express.Router()
 
+const regExpIntegrityCheck = require("../middlewares/regexCheck");
+const { uuidv4RegExp } = require("../middlewares/regexCheck");
+
 const Wine = require("../models/Wine")
 const Store = require("../models/Store")
 const WineStore = require("../models/WineStore")
@@ -30,7 +33,7 @@ wine.get("/", async (req, res) => {
     }
 })
 
-wine.get("/:uuid", async (req, res) => {
+wine.get("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     const uuid = req.params.uuid
     try {
         const wine = await Wine.findOne({
@@ -47,6 +50,12 @@ wine.get("/:uuid", async (req, res) => {
                 }
             }]
         })
+        if (wine === null) {
+            res.status(404).json({
+                status: "error",
+                message: " Wine uuid not found"
+            })
+        }
         res.status(200).json(wine)
     } catch (err) {
         res.status(422).json({
