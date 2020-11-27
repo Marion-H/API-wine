@@ -4,8 +4,11 @@ const cors = require("cors")
 const helmet = require("helmet")
 
 const sequelize = require("./sequelize")
+require("./associations/associations")
 
 const wine = require("./routes/wine.route")
+const store = require("./routes/store.route")
+const wineStore = require("./routes/wineStore.route")
 
 const app = express()
 
@@ -18,6 +21,8 @@ app.use(helmet())
 app.use(express.json())
 
 app.use("/wines", wine)
+app.use("/stores", store)
+app.use("/wineStores", wineStore)
 
 app.get("/", (req, res) => {
     res.status(200).send("Welcome in your API")
@@ -25,7 +30,7 @@ app.get("/", (req, res) => {
 
 async function main() {
     try {
-        await sequelize.sync({force:true})
+        await sequelize.sync()
         await sequelize.authenticate()
         console.log("Database succesfully joined")
         app.listen(PORT, (err) => {

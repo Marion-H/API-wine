@@ -6,7 +6,7 @@ POST http://localhost:8080/wines
 Content-Type: application/json
 
 {
-    "title": "test",
+    "title": "Bordeaux1",
     "type": "rouge",
     "image": "https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg",
     "temperature": "15.2",
@@ -14,27 +14,22 @@ Content-Type: application/json
     "description": "lorem ipsum",
     "list_dishes": ["viande rouge", "poulet"],
     "logo": ["https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg","https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg"],
-    "price_indicator": "€-€€"
+    "price_indicator": "€-€€",
+    "StoreUuid": ["f527870f-f83b-4ce4-9703-13e91a9c9674","a62fc37c-f3a3-42d5-8fbd-f5252e380f69"]
 }
 
 
 ###
 
-GET http://localhost:8080/wines/b26b9278-f7c1-4bb0-b516-6d1ff99dfc41
+GET http://localhost:8080/wines/ba0b1119-249e-46a2-aa98-85decedcbfd
 
 ####
 
-PUT http://localhost:8080/wines/b26b9278-f7c1-4bb0-b516-6d1ff99dfc41
+PUT http://localhost:8080/wines/76b4283e-b94a-401f-922d-b9fdd107e719
 Content-Type: application/json
 
 {
-    "title": "Bordeaux",
-    "type": "rouge",
-    "image": "https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg",
-    "temperature": "15.2",
-    "region":"nouvelle-aquitaine",
-    "description": "lorem ipsum",
-    "list_dishes": ["viande rouge", "poulet"],
-    "logo": ["https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg","https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg"],
-    "price_indicator": "€-€€"
+    "tit": "Bordeaux"
 }
+
+
