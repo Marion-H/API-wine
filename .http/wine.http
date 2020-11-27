@@ -15,13 +15,13 @@ Content-Type: application/json
     "list_dishes": ["viande rouge", "poulet"],
     "logo": ["https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg","https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg"],
     "price_indicator": "€-€€",
-    "StoreUuid": ["ba0b1119-249e-46a2-aa98-85decedcbfdb"]
+    "StoreUuid": ["f527870f-f83b-4ce4-9703-13e91a9c9674","a62fc37c-f3a3-42d5-8fbd-f5252e380f69"]
 }
 
 
 ###
 
-GET http://localhost:8080/wines/ba0b1119-249e-46a2-aa98-85decedcbfdb
+GET http://localhost:8080/wines/ba0b1119-249e-46a2-aa98-85decedcbfd
 
 ####
 

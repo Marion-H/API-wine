@@ -5,7 +5,7 @@ POST http://localhost:8080/stores
 Content-Type: application/json
 
 {
-    "name": "Tarbes"
+    "name": "Juillan"
 }
 
 ###
