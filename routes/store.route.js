@@ -2,6 +2,9 @@ const express = require("express")
 
 const store = express.Router()
 
+const regExpIntegrityCheck = require("../middlewares/regexCheck");
+const { uuidv4RegExp } = require("../middlewares/regexCheck");
+
 const Store = require("../models/Store")
 const Wine = require("../models/Wine")
 
@@ -17,13 +20,20 @@ store.get("/", async (req,res) => {
     }
 })
 
-store.get("/:uuid", async (req,res) => {
+store.get("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req,res) => {
     const uuid = req.params.uuid
     try {
         const store = await Store.findOne({
             where: { uuid }
         })
-        res.status(200).json(store)
+        if (store === null) {
+            res.status(404).json({
+                status: "error",
+                message: " Store uuid not found"
+            })
+        } else {
+            res.status(200).json(store)
+        }
     } catch (err) {
         res.status(422).json({
             status: "error",
@@ -45,7 +55,7 @@ store.post("/", async (req,res) => {
     }
 })
 
-store.put("/:uuid", async (req,res) => {
+store.put("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req,res) => {
     const uuid = req.params.uuid
     const { name } = req.body
     try {
@@ -53,9 +63,9 @@ store.put("/:uuid", async (req,res) => {
         if (store[0] !== 0){
             res.status(204).end()
         } else {
-            res.status(422).json({
+            res.status(404).json({
                 status: "error",
-                message: "Check if the key exists or if the key is well written"
+                message: "Store uuid or key not found"
             }) 
         }
     } catch (err) {

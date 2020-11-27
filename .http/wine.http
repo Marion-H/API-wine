@@ -25,7 +25,7 @@ GET http://localhost:8080/wines/ba0b1119-249e-46a2-aa98-85decedcbfd
 
 ####
 
-PUT http://localhost:8080/wines/54a29a05-ee89-4b2a-b905-7e0437e1a4ea
+PUT http://localhost:8080/wines/76b4283e-b94a-401f-922d-b9fdd107e719
 Content-Type: application/json
 
 {

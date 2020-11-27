@@ -17,4 +17,5 @@ const Store = SequelizeInstance.define(
     }
 )
 
+
 module.exports = Store

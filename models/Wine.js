@@ -34,16 +34,6 @@ const Wine = sequelizeInstance.define(
             type: Sequelize.STRING(1000),
             allowNull: true
         },
-        // ref_store: {
-        //     type: Sequelize.STRING,
-        //     allowNull: false,
-        //     get() {
-        //         return this.getDataValue("ref_store").split(';')
-        //     },
-        //     set(val) {
-        //         this.setDataValue("ref_store", val.join(";"))
-        //     }
-        // }, 
         list_dishes: {
             type: Sequelize.STRING,
             allowNull: false,
@@ -72,17 +62,5 @@ const Wine = sequelizeInstance.define(
         }, 
     }
 );
-
-// Wine.create({
-//     title: "Baba",
-//     type: "rouge",
-//     image: "https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg",
-//     temperature: "15.2",
-//     region:"nouvelle-aquitaine",
-//     description: "lorem ipsum",
-//     list_dishes: ["viande rouge", "poulet"],
-//     logo: ["https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg","https://www.bienmanger.com/tinyMceData/images/categories/1423/valeur-sure-kressmann.jpg"],
-//     price_indicator: "€-€€"
-// })
 
 module.exports = Wine

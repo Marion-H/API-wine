@@ -9,9 +9,12 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8080/stores/6d3316ff-113f-432b-af9b-c2f00ad9ad6b
+PUT http://localhost:8080/stores/608f657f-3d8a-42a0-8e04-a35c4e667618
 Content-Type: application/json
 
 {
     "name": "Juillan"
 }
+
+###
+GET http://localhost:8080/stores/608f657f-3d8a-42a0-8e04-a35c4e667610

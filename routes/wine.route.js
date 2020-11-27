@@ -94,7 +94,7 @@ wine.post("/", asyncHandler(async (req, res) => {
     }
 }))
 
-wine.put("/:uuid", async (req, res) => {
+wine.put("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     const uuid = req.params.uuid
     const { title, type, image, temperature, region, description, list_dishes, logo, price_indicator } = req.body
     try {
@@ -102,9 +102,9 @@ wine.put("/:uuid", async (req, res) => {
         if (wine[0] !== 0) {
             res.status(204).end()
         } else {
-            res.status(422).json({
+            res.status(404).json({
                 status: "error",
-                message: "Check if the key exists or if the key is well written"
+                message: "Wine uuid or key not found"
             })
         }
     } catch (err) {
@@ -115,7 +115,7 @@ wine.put("/:uuid", async (req, res) => {
     }
 })
 
-wine.delete("/:uuid", async (req, res) => {
+wine.delete("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     const uuid = req.params.uuid
     try {
         await Wine.destroy({ where: { uuid } })
