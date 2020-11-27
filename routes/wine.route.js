@@ -55,8 +55,9 @@ wine.get("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
                 status: "error",
                 message: " Wine uuid not found"
             })
+        } else {
+            res.status(200).json(wine)
         }
-        res.status(200).json(wine)
     } catch (err) {
         res.status(422).json({
             status: "error",
@@ -72,7 +73,7 @@ wine.post("/", async (req, res) => {
             title, type, image, temperature, region, description, list_dishes, logo, price_indicator
         })
         
-        const store = await Store.findByPk(StoreUuid)
+        const store = await Store.findByPk(StoreUuid[0])
         console.log(store.dataValues)
         const infoWineStore = {
             WineUuid: saveWine.uuid,
