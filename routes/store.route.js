@@ -76,7 +76,7 @@ store.put("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req,res) => {
     }
 })
 
-store.delete("/:uuid", async (req, res) => {
+store.delete("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     const uuid = req.params.uuid
     try {
         await Store.destroy({where: {uuid} })

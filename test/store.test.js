@@ -97,7 +97,7 @@ describe("STORE", () => {
                 const res = await chai.request(server).put(`/stores/${store.uuid}`).send({
                     nam: "Juillan"
                 })
-                expect(res).have.status(422)
+                expect(res).have.status(404)
                 expect(res.body).to.be.a("object")
                 expect(res.body).have.keys(["status", "message"])
             } catch (err) {

@@ -7,6 +7,7 @@ let expect = chai.expect
 const server = require("../index")
 
 const sequelize = require("../sequelize")
+const Store = require("../models/Store")
 
 chai.use(chaiHttp)
 
@@ -21,15 +22,29 @@ const wineKey = [
     "list_dishes",
     "logo",
     "price_indicator",
+    "stores",
+    "createdAt",
+    "updatedAt"
+]
+
+const storeKey = [
+    "uuid",
+    "name",
     "createdAt",
     "updatedAt"
 ]
 
 let wine
+let store
 
 describe("WINE", () => {
     before(async () => {
         await sequelize.sync({ force: true })
+
+        store = await Store.create({
+            name: "Juillan"
+        })
+
         wine = await Wine.create({
             title: "vin bordeaux",
             type: "rouge",
@@ -39,8 +54,10 @@ describe("WINE", () => {
             description: "lorem ipsum",
             list_dishes: ["poulet", "poisson"],
             logo: ["test.png", "test.png", "test.png"],
-            price_indicator: "€-€€"
+            price_indicator: "€-€€",
+            StoreUuid: [store.uuid]
         })
+
     })
 
     describe("get all wines", () => {
@@ -82,7 +99,9 @@ describe("WINE", () => {
                     description: "lorem ipsum",
                     list_dishes: ["poulet", "poisson"],
                     logo: ["test.png", "test.png", "test.png"],
-                    price_indicator: "€-€€"
+                    price_indicator: "€-€€",
+                    StoreUuid: [store.uuid]
+
                 })
                 expect(res).have.status(201)
             } catch (err) {
@@ -135,15 +154,15 @@ describe("WINE", () => {
             }
         })
 
-        // it("failed to delete wine", async () => {
-        //     try {
-        //         const res = await chai.request(server).delete('/wines/1')
-        //         expect(res).have.status(400)
-        //         expect(res.body).to.be.a("object")
-        //         expect(res.body).have.keys(["status", "message"])
-        //     } catch (err) {
-        //         throw err
-        //     }
-        // })
+        it("failed to delete wine", async () => {
+            try {
+                const res = await chai.request(server).delete('/wines/1')
+                expect(res).have.status(404)
+                expect(res.body).to.be.a("object")
+                expect(res.body).have.keys(["status", "message"])
+            } catch (err) {
+                throw err
+            }
+        })
     })
 })

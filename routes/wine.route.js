@@ -74,7 +74,6 @@ wine.post("/", asyncHandler(async (req, res) => {
         const saveWine = await Wine.create({
             title, type, image, temperature, region, description, list_dishes, logo, price_indicator
         })
-
         const test = await StoreUuid.forEach(async (uuid) => {
 
             const store = await Store.findByPk(uuid)
@@ -118,8 +117,15 @@ wine.put("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
 wine.delete("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     const uuid = req.params.uuid
     try {
-        await Wine.destroy({ where: { uuid } })
-        res.status(204).end()
+        const deleteWine = await Wine.destroy({ where: { uuid } })
+        if (deleteWine !== 0) {
+            res.status(204).end()
+        } else {
+            res.status(404).json({
+                status: "error",
+                message: "Wine uuid not found"
+            })
+        }
     } catch (err) {
         res.status(400).json({
             status: "error",
