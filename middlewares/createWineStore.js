@@ -8,7 +8,6 @@ const createWinestore = async (store, saveWine, res) => {
             StoreUuid: store.uuid
         }
         const saveWineStore = await WineStore.create(infoWineStore)
-        res.status(201).json(saveWine)
     } else {
         res.status(404).json({
             status: "error",

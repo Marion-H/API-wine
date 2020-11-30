@@ -1,6 +1,5 @@
 module.exports = (regex, msg) =>
   function(req, res, next) {
-    console.log(msg)
     if (regex.test(req.params.uuid)) {
       next();
     } else {

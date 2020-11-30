@@ -87,6 +87,7 @@ wine.post("/", asyncHandler(async (req, res) => {
                 })
             }
         })
+        res.status(201).json(saveWine)
 
     } catch (err) {
         res.status(422).json({
