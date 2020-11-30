@@ -120,6 +120,50 @@ describe("WINE", () => {
                 throw err
             }
         })
+
+        it("failled to create a new wine with a wrong format uuid store", async () => {
+            try {
+                const res = await chai.request(server).post("/wines").send({
+                    title: "vin bordeaux",
+                    type: "rouge",
+                    image: "test.png",
+                    temperature: "12.3",
+                    region: "nouvelle-aquitaine",
+                    description: "lorem ipsum",
+                    list_dishes: ["poulet", "poisson"],
+                    logo: ["test.png", "test.png", "test.png"],
+                    price_indicator: "€-€€",
+                    StoreUuid: ["d1304d85-5c75-46e7-ae00-42219ddf8bc"]
+                })
+                expect(res).have.status(422)
+                expect(res.body).to.be.a("object")
+                expect(res.body).have.keys(["status", "message"])
+            } catch (err) {
+                
+            }
+        })
+
+        it("failled to create a new wine with store uuid null", async () => {
+            try {
+                const res = await chai.request(server).post("/wines").send({
+                    title: "vin bordeaux",
+                    type: "rouge",
+                    image: "test.png",
+                    temperature: "12.3",
+                    region: "nouvelle-aquitaine",
+                    description: "lorem ipsum",
+                    list_dishes: ["poulet", "poisson"],
+                    logo: ["test.png", "test.png", "test.png"],
+                    price_indicator: "€-€€",
+                    StoreUuid: ["d1304d85-5c75-46e7-ae00-42219ddf8bca"]
+                })
+                expect(res).have.status(404)
+                expect(res.body).to.be.a("object")
+                expect(res.body).have.keys(["status", "message"])
+            } catch (err) {
+                
+            }
+        })
     })
 
     describe("put a wine with uuid", () => {

@@ -7,6 +7,7 @@ let expect = chai.expect
 const server = require("../index")
 
 const sequelize = require("../sequelize")
+const { createPool } = require("mysql2/promise")
 
 chai.use(chaiHttp)
 
@@ -111,6 +112,17 @@ describe("STORE", () => {
             try {
                 const res = await chai.request(server).delete(`/stores/${store.uuid}`)
                 expect(res).have.status(204)
+            } catch (err) {
+                throw err
+            }
+        })
+
+        it("failed to delete store", async () => {
+            try {
+                const res = await chai.request(server).delete('/stores/1')
+                expect(res).have.status(404)
+                expect(res.body).to.be.a("object")
+                expect(res.body).have.keys(["status", "message"])
             } catch (err) {
                 throw err
             }
