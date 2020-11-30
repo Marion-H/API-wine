@@ -6,6 +6,7 @@ const asyncHandler = require('express-async-handler')
 
 const regExpIntegrityCheck = require("../middlewares/regexCheck");
 const { uuidv4RegExp } = require("../middlewares/regexCheck");
+const createWineStore = require("../middlewares/createWineStore")
 
 const Wine = require("../models/Wine")
 const Store = require("../models/Store")
@@ -75,15 +76,17 @@ wine.post("/", asyncHandler(async (req, res) => {
             title, type, image, temperature, region, description, list_dishes, logo, price_indicator
         })
         const test = await StoreUuid.forEach(async (uuid) => {
-
-            const store = await Store.findByPk(uuid)
-            const infoWineStore = {
-                WineUuid: saveWine.uuid,
-                StoreUuid: store.uuid
+            const reg = uuidv4RegExp.test(uuid)
+            if (reg) {
+                const store = await Store.findByPk(uuid)
+                await createWineStore(store, saveWine, res)
+            } else {
+                res.status(422).json({
+                    status: "error",
+                    message: "store uuid : wrong format"
+                })
             }
-            const saveWineStore = await WineStore.create(infoWineStore)
         })
-        return res.status(201).json(saveWine)
 
     } catch (err) {
         res.status(422).json({
