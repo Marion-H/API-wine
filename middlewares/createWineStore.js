@@ -10,7 +10,6 @@ const createWinestore = async (store, saveWine, res) => {
         const saveWineStore = await WineStore.create(infoWineStore)
         res.status(201).json(saveWine)
     } else {
-        console.log("uuid null")
         res.status(404).json({
             status: "error",
             message: "store uuid not found"
