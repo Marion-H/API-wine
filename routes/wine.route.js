@@ -6,6 +6,7 @@ const asyncHandler = require('express-async-handler')
 
 const regExpIntegrityCheck = require("../middlewares/regexCheck");
 const { uuidv4RegExp } = require("../middlewares/regexCheck");
+const createWineStore = require("../middlewares/createWineStore")
 
 const Wine = require("../models/Wine")
 const Store = require("../models/Store")
@@ -74,17 +75,19 @@ wine.post("/", asyncHandler(async (req, res) => {
         const saveWine = await Wine.create({
             title, type, image, temperature, region, description, list_dishes, logo, price_indicator
         })
-
         const test = await StoreUuid.forEach(async (uuid) => {
-
-            const store = await Store.findByPk(uuid)
-            const infoWineStore = {
-                WineUuid: saveWine.uuid,
-                StoreUuid: store.uuid
+            const reg = uuidv4RegExp.test(uuid)
+            if (reg) {
+                const store = await Store.findByPk(uuid)
+                await createWineStore(store, saveWine, res)
+            } else {
+                res.status(422).json({
+                    status: "error",
+                    message: "store uuid : wrong format"
+                })
             }
-            const saveWineStore = await WineStore.create(infoWineStore)
         })
-        return res.status(201).json(saveWine)
+        res.status(201).json(saveWine)
 
     } catch (err) {
         res.status(422).json({
@@ -118,8 +121,15 @@ wine.put("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
 wine.delete("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     const uuid = req.params.uuid
     try {
-        await Wine.destroy({ where: { uuid } })
-        res.status(204).end()
+        const deleteWine = await Wine.destroy({ where: { uuid } })
+        if (deleteWine !== 0) {
+            res.status(204).end()
+        } else {
+            res.status(404).json({
+                status: "error",
+                message: "Wine uuid not found"
+            })
+        }
     } catch (err) {
         res.status(400).json({
             status: "error",
