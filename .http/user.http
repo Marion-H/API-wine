@@ -1,0 +1,19 @@
+GET http://localhost:8080/admin
+
+###
+POST http://localhost:8080/admin
+Content-Type: application/json
+
+{
+    "user": "Biocoop",
+    "password": "toto"
+}
+
+###
+POST http://localhost:8080/admin/login
+Content-Type: application/json
+
+{
+    "user": "Biocoop",
+    "password": "toto"
+}
