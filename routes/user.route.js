@@ -57,22 +57,4 @@ userApp.post("/", async (req, res) => {
     }
 })
 
-userApp.post("/login", async (req, res) => {
-    const { user, password } = req.body
-    try {
-        const userFind = await User.findOne({where : { user }})
-        const isValide = userFind.validatePassword(password)
-        if (isValide){
-            console.log("user find")
-            res.status(201).json(userFind.uuid)
-        }
-    } catch (err) {
-        res.status(400).json({
-            status: "error",
-            message: err.message
-        })
-    }
-})
-
-
 module.exports = userApp

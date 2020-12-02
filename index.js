@@ -10,6 +10,7 @@ const wine = require("./routes/wine.route")
 const store = require("./routes/store.route")
 const wineStore = require("./routes/wineStore.route")
 const user = require("./routes/user.route")
+const login = require("./routes/login.route")
 
 const app = express()
 
@@ -24,7 +25,8 @@ app.use(express.json())
 app.use("/wines", wine)
 app.use("/stores", store)
 app.use("/wineStores", wineStore)
-app.use("/admin", user)
+app.use("/users", user)
+app.use("/login", login)
 
 app.get("/", (req, res) => {
     res.status(200).send("Welcome in your API")

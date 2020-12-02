@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken")
 
+const { SECRET } = process.env
+
 module.exports = (req, res, next) => {
     if (!req.headers.authorization) {
         res.status(401).json({
@@ -9,7 +11,7 @@ module.exports = (req, res, next) => {
     } else {
         const token = req.headers.authorization.split(" ")[1]
         if (token) {
-            jwt.verify(token, process.env.secret, (err) => {
+            jwt.verify(token, SECRET, (err) => {
                 if (err) {
                     res.status(401).json({
                         status: "error",
