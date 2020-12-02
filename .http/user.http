@@ -6,7 +6,7 @@ GET http://localhost:8080/user/ab04ae59-a2cc-49ce-9452-5788a7f005c1
 
 #####
 
-POST http://localhost:8080/user
+POST http://localhost:8080/users
 Content-Type: application/json
 
 {
