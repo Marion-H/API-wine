@@ -9,7 +9,11 @@ const User = require("../models/User")
 
 userApp.get("/", async (req, res) => {
     try {
-        const users = await User.findAll()
+        const users = await User.findAll({
+            attributes: {
+                exclude: ["password"]
+            }
+        })
         res.status(200).json(users)
     } catch (err) {
         res.status(400).json({
@@ -22,7 +26,12 @@ userApp.get("/", async (req, res) => {
 userApp.get("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     const uuid = req.params.uuid
     try {
-        const user = await User.findByPk(uuid)
+        const user = await User.findOne({
+            attributes: {
+                exclude: ["password"]
+            }
+        },
+        { where: {uuid}})
         res.status(200).json(user)
     } catch (err) {
         res.status(422).json({
