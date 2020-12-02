@@ -14,7 +14,7 @@ login.post("/", async (req, res) => {
         if (isValide){
             const token = jwt.sign(
                 {
-                  id: userFind.dataValues.uuid,
+                  uuid: userFind.dataValues.uuid,
                   user: userFind.dataValues.user,
                 },
                 SECRET,
