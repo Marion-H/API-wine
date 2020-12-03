@@ -7,6 +7,7 @@ const asyncHandler = require('express-async-handler')
 const regExpIntegrityCheck = require("../middlewares/regexCheck");
 const { uuidv4RegExp } = require("../middlewares/regexCheck");
 const createWineStore = require("../middlewares/createWineStore")
+const auth = require("../middlewares/auth")
 
 const Wine = require("../models/Wine")
 const Store = require("../models/Store")
@@ -69,7 +70,7 @@ wine.get("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     }
 })
 
-wine.post("/", asyncHandler(async (req, res) => {
+wine.post("/", auth, asyncHandler(async (req, res) => {
     const { title, type, image, temperature, region, description, list_dishes, logo, price_indicator, StoreUuid } = req.body
     try {
         const saveWine = await Wine.create({
@@ -97,7 +98,7 @@ wine.post("/", asyncHandler(async (req, res) => {
     }
 }))
 
-wine.put("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
+wine.put("/:uuid", auth, regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     const uuid = req.params.uuid
     const { title, type, image, temperature, region, description, list_dishes, logo, price_indicator } = req.body
     try {
@@ -118,7 +119,7 @@ wine.put("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     }
 })
 
-wine.delete("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
+wine.delete("/:uuid", auth, regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     const uuid = req.params.uuid
     try {
         const deleteWine = await Wine.destroy({ where: { uuid } })

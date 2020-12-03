@@ -4,6 +4,7 @@ const store = express.Router()
 
 const regExpIntegrityCheck = require("../middlewares/regexCheck");
 const { uuidv4RegExp } = require("../middlewares/regexCheck");
+const auth = require("../middlewares/auth")
 
 const Store = require("../models/Store")
 const Wine = require("../models/Wine")
@@ -42,7 +43,7 @@ store.get("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req,res) => {
     }
 })
 
-store.post("/", async (req,res) => {
+store.post("/", auth, async (req,res) => {
     const { name } = req.body
     try {
         const store = await Store.create({name})
@@ -55,7 +56,7 @@ store.post("/", async (req,res) => {
     }
 })
 
-store.put("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req,res) => {
+store.put("/:uuid", auth, regExpIntegrityCheck(uuidv4RegExp), async (req,res) => {
     const uuid = req.params.uuid
     const { name } = req.body
     try {
@@ -76,11 +77,18 @@ store.put("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req,res) => {
     }
 })
 
-store.delete("/:uuid", regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
+store.delete("/:uuid", auth, regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     const uuid = req.params.uuid
     try {
-        await Store.destroy({where: {uuid} })
-        res.status(204).end()
+        const deleteStore = await Store.destroy({ where: { uuid } })
+        if (deleteStore !== 0) {
+            res.status(204).end()
+        } else {
+            res.status(404).json({
+                status: "error",
+                message: "Store uuid not found"
+            })
+        }
     } catch (err) {
         res.status(400).json({
             status: "error",

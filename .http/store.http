@@ -1,4 +1,6 @@
 GET http://localhost:8080/stores
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFiMDRhZTU5LWEyY2MtNDljZS05NDUyLTU3ODhhN2YwMDVjMSIsInVzZXIiOiJCaW9jb29wIiwiaWF0IjoxNjA2OTI2MjY1LCJleHAiOjE2MDY5Mjk4NjV9.ZBm7ZTULf50gGYIzXRYZ0oUjBSQkdt5W4Njyu0GNhWI
+
 
 ###
 POST http://localhost:8080/stores

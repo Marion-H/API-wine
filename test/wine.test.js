@@ -1,6 +1,11 @@
 const chai = require("chai")
 const chaiHttp = require("chai-http")
+const jwt = require("jsonwebtoken")
+
 const Wine = require("../models/Wine")
+const User = require("../models/User")
+
+const { SECRET } = process.env
 
 let expect = chai.expect
 
@@ -36,10 +41,26 @@ const storeKey = [
 
 let wine
 let store
+let token
+let admin
 
 describe("WINE", () => {
     before(async () => {
         await sequelize.sync({ force: true })
+
+        admin = await User.create({
+            user: "Biocoop",
+            password: "toto"
+        })
+
+        token = jwt.sign(
+            {
+                uuid: admin.dataValues.uuid,
+                user: admin.dataValues.user
+            },
+            SECRET,
+            { expiresIn: "1h" }
+        )
 
         store = await Store.create({
             name: "Juillan"
@@ -85,12 +106,27 @@ describe("WINE", () => {
                 throw err
             }
         })
+
+        it("failed to get one wine", async () => {
+            try {
+                const res = await chai.request(server)
+                .get('/wines/1')
+                expect(res).have.status(404)
+                expect(res.body).to.be.a("object")
+                expect(res.body).have.keys(["status", "message"])
+            } catch (err) {
+                throw err
+            }
+        })
     })
 
     describe("post a new wine", () => {
         it("should return a new object wine", async () => {
             try {
-                const res = await chai.request(server).post("/wines").send({
+                const res = await chai.request(server)
+                .post("/wines")
+                .set("Authorization", ` Bearer ${token}`)
+                .send({
                     title: "vin bordeaux",
                     type: "rouge",
                     image: "test.png",
@@ -110,7 +146,10 @@ describe("WINE", () => {
         })
         it("failed to create a new wine", async () => {
             try {
-                const res = await chai.request(server).post("/wines").send({
+                const res = await chai.request(server)
+                .post("/wines")
+                .set("Authorization", ` Bearer ${token}`)
+                .send({
                     title: "vin bordeaux"
                 })
                 expect(res).have.status(422)
@@ -123,7 +162,10 @@ describe("WINE", () => {
 
         it("failled to create a new wine with a wrong format uuid store", async () => {
             try {
-                const res = await chai.request(server).post("/wines").send({
+                const res = await chai.request(server)
+                .post("/wines")
+                .set("Authorization", ` Bearer ${token}`)
+                .send({
                     title: "vin bordeaux",
                     type: "rouge",
                     image: "test.png",
@@ -145,7 +187,10 @@ describe("WINE", () => {
 
         it("failled to create a new wine with store uuid null", async () => {
             try {
-                const res = await chai.request(server).post("/wines").send({
+                const res = await chai.request(server)
+                .post("/wines")
+                .set("Authorization", ` Bearer ${token}`)
+                .send({
                     title: "vin bordeaux",
                     type: "rouge",
                     image: "test.png",
@@ -169,7 +214,10 @@ describe("WINE", () => {
     describe("put a wine with uuid", () => {
         it("should put a wine with uuid", async () => {
             try {
-                const res = await chai.request(server).put(`/wines/${wine.uuid}`).send({ title: "test" })
+                const res = await chai.request(server)
+                .put(`/wines/${wine.uuid}`)
+                .set("Authorization", ` Bearer ${token}`)
+                .send({ title: "test" })
                 expect(res).have.status(204)
             } catch (err) {
                 throw err
@@ -178,7 +226,10 @@ describe("WINE", () => {
 
         it("failed to put wine", async () => {
             try {
-                const res = await chai.request(server).put(`/wines/${wine.uuid}`).send({ tit: "test" })
+                const res = await chai.request(server)
+                .put(`/wines/${wine.uuid}`)
+                .set("Authorization", ` Bearer ${token}`)
+                .send({ tit: "test" })
                 expect(res).have.status(422)
                 expect(res.body).to.be.a("object")
                 expect(res.body).have.keys(["status", "message"])
@@ -191,7 +242,9 @@ describe("WINE", () => {
     describe("delete a wine with uuid", () => {
         it("should delete a single wine with a uuid", async () => {
             try {
-                const res = await chai.request(server).delete(`/wines/${wine.uuid}`)
+                const res = await chai.request(server)
+                .delete(`/wines/${wine.uuid}`)
+                .set("Authorization", ` Bearer ${token}`)
                 expect(res).have.status(204)
             } catch (err) {
                 throw err
@@ -200,7 +253,9 @@ describe("WINE", () => {
 
         it("failed to delete wine", async () => {
             try {
-                const res = await chai.request(server).delete('/wines/1')
+                const res = await chai.request(server)
+                .delete('/wines/1')
+                .set("Authorization", ` Bearer ${token}`)
                 expect(res).have.status(404)
                 expect(res.body).to.be.a("object")
                 expect(res.body).have.keys(["status", "message"])
