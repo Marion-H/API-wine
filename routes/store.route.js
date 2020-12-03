@@ -80,8 +80,15 @@ store.put("/:uuid", auth, regExpIntegrityCheck(uuidv4RegExp), async (req,res) =>
 store.delete("/:uuid", auth, regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     const uuid = req.params.uuid
     try {
-        await Store.destroy({where: {uuid} })
-        res.status(204).end()
+        const deleteStore = await Store.destroy({ where: { uuid } })
+        if (deleteStore !== 0) {
+            res.status(204).end()
+        } else {
+            res.status(404).json({
+                status: "error",
+                message: "Store uuid not found"
+            })
+        }
     } catch (err) {
         res.status(400).json({
             status: "error",

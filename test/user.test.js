@@ -136,4 +136,30 @@ describe("USER", () => {
             }
         })
     })
+
+    describe("delete a user with uuid", () => {
+        it("should delete a single user with a uuid", async () => {
+            try {
+                const res = await chai.request(server)
+                .delete(`/users/${user.uuid}`)
+                .set("Authorization", ` Bearer ${token}`)
+                expect(res).have.status(204)
+            } catch (err) {
+                throw err
+            }
+        })
+
+        it("failed to delete user", async () => {
+            try {
+                const res = await chai.request(server)
+                .delete('/users/1')
+                .set("Authorization", ` Bearer ${token}`)
+                expect(res).have.status(404)
+                expect(res.body).to.be.a("object")
+                expect(res.body).have.keys(["status", "message"])
+            } catch (err) {
+                throw err
+            }
+        })
+    })
 })

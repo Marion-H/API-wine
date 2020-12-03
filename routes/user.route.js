@@ -82,4 +82,24 @@ userApp.put("/:uuid", async (req, res) => {
     }
 })
 
+userApp.delete("/:uuid", async (req, res) => {
+    const uuid = req.params.uuid
+    try {
+        const deleteUser = await User.destroy({ where: { uuid } })
+        if (deleteUser !== 0) {
+            res.status(204).end()
+        } else {
+            res.status(404).json({
+                status: "error",
+                message: "User uuid not found"
+            })
+        }
+    } catch (err) {
+        res.status(400).json({
+            status: "error",
+            message: err.message
+        })
+    }
+})
+
 module.exports = userApp
