@@ -42,6 +42,7 @@ const storeKey = [
 let wine
 let store
 let token
+let admin
 
 describe("WINE", () => {
     before(async () => {

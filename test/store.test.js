@@ -25,6 +25,7 @@ const storeKey = [
 
 let store
 let token
+let admin
 
 describe("STORE", () => {
     before(async () => {
