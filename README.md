@@ -30,10 +30,6 @@
 - **npm test** : Start test server using mocha
 - Using **Chai** and **Chai-http** with method _`expect`_
 
-## Curious behavior
-
-- importing a route in a model will **_crash_** or **_not validate_** your tests
-
 ## Authors
 
 
