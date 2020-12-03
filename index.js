@@ -6,6 +6,8 @@ const helmet = require("helmet")
 const sequelize = require("./sequelize")
 require("./associations/associations")
 
+const User = require("./models/User")
+
 const wine = require("./routes/wine.route")
 const store = require("./routes/store.route")
 const wineStore = require("./routes/wineStore.route")
@@ -36,6 +38,9 @@ async function main() {
     try {
         await sequelize.sync()
         await sequelize.authenticate()
+        await User.findCreateFind({
+            where: { user: "Biocoop", password: "toto" },
+        });
         console.log("Database succesfully joined")
         app.listen(PORT, (err) => {
             if (err) throw new Error(err.message)
