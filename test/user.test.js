@@ -70,6 +70,18 @@ describe("USER", () => {
                 throw err
             }
         })
+
+        it("failed to get one user", async () => {
+            try {
+                const res = await chai.request(server)
+                .get('/users/1')
+                expect(res).have.status(404)
+                expect(res.body).to.be.a("object")
+                expect(res.body).have.keys(["status", "message"])
+            } catch (err) {
+                throw err
+            }
+        })
     })
 
     describe("post a user", () => {

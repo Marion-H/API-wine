@@ -106,6 +106,18 @@ describe("WINE", () => {
                 throw err
             }
         })
+
+        it("failed to get one wine", async () => {
+            try {
+                const res = await chai.request(server)
+                .get('/wines/1')
+                expect(res).have.status(404)
+                expect(res.body).to.be.a("object")
+                expect(res.body).have.keys(["status", "message"])
+            } catch (err) {
+                throw err
+            }
+        })
     })
 
     describe("post a new wine", () => {

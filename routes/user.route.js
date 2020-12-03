@@ -4,6 +4,7 @@ const userApp = express.Router()
 
 const regExpIntegrityCheck = require("../middlewares/regexCheck");
 const { uuidv4RegExp } = require("../middlewares/regexCheck");
+const auth = require("../middlewares/auth")
 
 const User = require("../models/User")
 
@@ -57,7 +58,7 @@ userApp.post("/", async (req, res) => {
     }
 })
 
-userApp.put("/:uuid", async (req, res) => {
+userApp.put("/:uuid", auth, regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     const { user, password } = req.body
     const uuid = req.params.uuid
     try {
@@ -82,7 +83,7 @@ userApp.put("/:uuid", async (req, res) => {
     }
 })
 
-userApp.delete("/:uuid", async (req, res) => {
+userApp.delete("/:uuid", auth, regExpIntegrityCheck(uuidv4RegExp), async (req, res) => {
     const uuid = req.params.uuid
     try {
         const deleteUser = await User.destroy({ where: { uuid } })

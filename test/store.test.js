@@ -75,6 +75,18 @@ describe("STORE", () => {
                 throw err
             }
         })
+
+        it("failed to get one store", async () => {
+            try {
+                const res = await chai.request(server)
+                .get('/stores/1')
+                expect(res).have.status(404)
+                expect(res.body).to.be.a("object")
+                expect(res.body).have.keys(["status", "message"])
+            } catch (err) {
+                throw err
+            }
+        })
     })
 
     describe("post a store", () => {
