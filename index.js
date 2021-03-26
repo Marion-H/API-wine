@@ -34,38 +34,25 @@ app.get("/", (req, res) => {
   res.status(200).send("Welcome in your API");
 });
 
-if (process.env.DATABASE_URL) {
-  const { Client } = require("pg");
-
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  });
-
-  client.connect();
-} else {
-  async function main() {
-    try {
-      await sequelize.sync();
-      await sequelize.authenticate();
-      await User.findCreateFind({
-        where: { user: "Biocoop", password: "toto" },
-      });
-      console.log("Database succesfully joined");
-      app.listen(PORT, (err) => {
-        if (err) throw new Error(err.message);
-        console.log(`Server is running on http://localhost:${PORT}`);
-      });
-    } catch (err) {
-      console.log("Unable to join database", err.message);
-    }
+async function main() {
+  try {
+    await sequelize.sync();
+    await sequelize.authenticate();
+    await User.findCreateFind({
+      where: { user: "Biocoop", password: "toto" },
+    });
+    console.log("Database succesfully joined");
+    app.listen(PORT, (err) => {
+      if (err) throw new Error(err.message);
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  } catch (err) {
+    console.log("Unable to join database", err.message);
   }
+}
 
-  if (process.env.NODE_ENV !== "test") {
-    main();
-  }
+if (process.env.NODE_ENV !== "test") {
+  main();
 }
 
 module.exports = app;
