@@ -62,10 +62,10 @@ if (process.env.DATABASE_URL) {
       console.log("Unable to join database", err.message);
     }
   }
-}
 
-if (process.env.NODE_ENV !== "test") {
-  main();
+  if (process.env.NODE_ENV !== "test") {
+    main();
+  }
 }
 
 module.exports = app;
